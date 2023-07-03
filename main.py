@@ -78,9 +78,6 @@ def show_current_channel(index):
         else:
             label.grid_forget()
 
-
-
-
 def turnOnTV():
     '''callback method used for turn_on button'''
     # use a Toplevel widget to display an image in a new window
@@ -94,7 +91,6 @@ def turnOnTV():
         animate_frames(label, gif_frames, 0)
         gif_labels.append(label)
     show_current_channel(0)
-
 
 def turnOffTV():
     remote.destroy()
