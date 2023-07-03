@@ -51,21 +51,33 @@ def changeChannelUP():
         gif_frames = load_gif_frames(channelFileArray[channelIndex - 1])
         animate_frames(gif_labels[channelIndex - 1], gif_frames, 0)
 
+def changeChannelUP():
+    global channelIndex
+    channelIndex += 1
+    if channelIndex >= len(channelFileArray):
+        channelIndex = 0
+    print(channelIndex)
+    gif_frames = load_gif_frames(channelFileArray[channelIndex])
+    animate_frames(gif_labels[channelIndex], gif_frames, 0)
+    show_current_channel(channelIndex)
+
 def changeChannelDOWN():
     global channelIndex
-    if channelIndex == 0:  # If currently on the first channel
-        channelIndex = len(channelFileArray) - 1  # Switch to the last channel
-        gif_frames = load_gif_frames(channelFileArray[channelIndex])
-        animate_frames(gif_labels[channelIndex], gif_frames, 0)
-        gif_labels[channelIndex].pack()
-        gif_labels[0].pack_forget()
-    else:
-        channelIndex -= 1
-        print(channelIndex)
-        gif_frames = load_gif_frames(channelFileArray[channelIndex])
-        animate_frames(gif_labels[channelIndex], gif_frames, 0)
-        gif_labels[channelIndex].pack()
-        gif_labels[channelIndex + 1].pack_forget()
+    channelIndex -= 1
+    if channelIndex < 0:
+        channelIndex = len(channelFileArray) - 1
+    print(channelIndex)
+    gif_frames = load_gif_frames(channelFileArray[channelIndex])
+    animate_frames(gif_labels[channelIndex], gif_frames, 0)
+    show_current_channel(channelIndex)
+
+def show_current_channel(index):
+    for i, label in enumerate(gif_labels):
+        if i == index:
+            label.grid(row=0, column=0)
+        else:
+            label.grid_forget()
+
 
 
 
@@ -78,10 +90,11 @@ def turnOnTV():
     for i in range(len(channelFileArray)):
         gif_frames = load_gif_frames(channelFileArray[i])
         label = Label(window)
-        label.pack()
+        label.grid(row=0, column=0)
         animate_frames(label, gif_frames, 0)
         gif_labels.append(label)
-    gif_labels[0].pack()
+    show_current_channel(0)
+
 
 def turnOffTV():
     remote.destroy()
